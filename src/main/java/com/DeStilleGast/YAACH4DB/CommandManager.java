@@ -18,20 +18,20 @@ import java.util.List;
 /**
  * Created by DeStilleGast on 17-1-2018.
  */
-public class CommandHandler extends ListenerAdapter {
+public class CommandManager extends ListenerAdapter {
     private List<ISimpleCommand> commandMap = new ArrayList<>();
     private final ILogger logger;
     private final String prefix;
 
-    public CommandHandler(){ // Go make a simple Command Handler with '!' as prefix and basic logger
+    public CommandManager(){ // Go make a simple Command Handler with '!' as prefix and basic logger
         this("!");
     }
 
-    public CommandHandler(String prefix){ // Go make a Command Handler with my prefix and basic logger
+    public CommandManager(String prefix){ // Go make a Command Handler with my prefix and basic logger
         this(prefix, new SimpleLogger());
     }
 
-    public CommandHandler(String prefix, ILogger logger) { // Go make a Command Handler and use my prefix and my logger
+    public CommandManager(String prefix, ILogger logger) { // Go make a Command Handler and use my prefix and my logger
         this.prefix = prefix;
         this.logger = logger;
     }
@@ -90,7 +90,7 @@ public class CommandHandler extends ListenerAdapter {
                     }
 
                     @Override
-                    public void execute(CommandWrapper cw) {
+                    public void execute(MessageReceivedEventWrapper cw) {
                         try {
                             method.invoke(object, cw);
                         } catch (InvocationTargetException e) {
@@ -137,7 +137,7 @@ public class CommandHandler extends ListenerAdapter {
         if (!(m.getReturnType() == void.class)) // You can add some other returnable types
             throw new Exception("Must have void as the return type.");
         if (m.getParameterCount() != 1) throw new Exception("Must have 1 parameter -> CommandWrapper");
-        if (!CommandWrapper.class.isAssignableFrom(m.getParameterTypes()[0]))
+        if (!MessageReceivedEventWrapper.class.isAssignableFrom(m.getParameterTypes()[0]))
             throw new Exception("First parameter must be a CommandWrapper or a subclass of it.");
 
         return m;
@@ -165,7 +165,7 @@ public class CommandHandler extends ListenerAdapter {
         }
 
         if (resultCommand != null) {
-            CommandWrapper cw = new CommandWrapper(event.getJDA(), event.getResponseNumber(), event.getMessage(), command, args);
+            MessageReceivedEventWrapper cw = new MessageReceivedEventWrapper(event.getJDA(), event.getResponseNumber(), event.getMessage(), command, args);
             resultCommand.execute(cw);
         }
     }

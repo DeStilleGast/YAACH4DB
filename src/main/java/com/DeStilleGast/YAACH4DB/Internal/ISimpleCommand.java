@@ -1,6 +1,6 @@
 package com.DeStilleGast.YAACH4DB.Internal;
 
-import com.DeStilleGast.YAACH4DB.CommandWrapper;
+import com.DeStilleGast.YAACH4DB.MessageReceivedEventWrapper;
 
 /**
  * Created by DeStilleGast on 10-1-2018.
@@ -11,5 +11,5 @@ public interface ISimpleCommand {
     String description();
     String usage();
 
-    void execute(CommandWrapper cw);
+    void execute(MessageReceivedEventWrapper cw);
 }

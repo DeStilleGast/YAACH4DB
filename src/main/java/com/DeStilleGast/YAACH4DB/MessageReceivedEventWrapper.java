@@ -10,12 +10,12 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 /**
  * Created by DeStilleGast on 17-1-2018.
  */
-public class CommandWrapper extends MessageReceivedEvent implements ICommandWrapper {
+public class MessageReceivedEventWrapper extends MessageReceivedEvent implements ICommandWrapper {
 
     private String usedAlias;
     private String[] args;
 
-    public CommandWrapper(JDA api, long responseNumber, Message message, String usedAlias, String[] args) {
+    public MessageReceivedEventWrapper(JDA api, long responseNumber, Message message, String usedAlias, String[] args) {
         super(api, responseNumber, message);
 
         this.usedAlias = usedAlias;
@@ -39,7 +39,11 @@ public class CommandWrapper extends MessageReceivedEvent implements ICommandWrap
         return usedAlias;
     }
 
-    //Try to get argument, otherwise
+    /**
+     * @param index index from argument array
+     * @param other if not found (outside array) return this
+     * @return found argument or the @param other
+     */
     @Override
     public String getArgumentOr(int index, String other){
         if(args.length > index){

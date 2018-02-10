@@ -12,20 +12,25 @@ It is pretty simple, it can look like this:
 
 ```java
 public class Bot {
-    private CommandManager commandHandler = new CommandManager();
+    private CommandManager commandManager = new CommandManager();
 
     public static void main(String[] args){
-        commandHandler.registerCommand(this);
+        commandManager.registerCommand(this);
         
         JDA bot = new JDABuilder(AccountType.BOT)
             .setToken("A chocolate cookie with chocolate chunks")
-            .addEventListener(commandHandler)
+            .addEventListener(commandManager)
             .buildAsync();
     }
     
     @Command(name = "test", usage = "this depends on how you made your help command")
-    public void testCommand(CommandWrapper commandWrapper){
-        commandWrapper.reply("This test is working, can I have a cookie now :D");
+    public void testCommand(MessageReceivedEventWrapper event){
+        event.reply("This test is working, can I have a cookie now :D");
+    }
+    
+    @Command(name = "toast", usage = "this depends on how you made your help command")
+    public void testToast(MessageReceivedEvent event){
+        event.getTextChannel().sendMessage(message).queue();
     }
 }
 ```

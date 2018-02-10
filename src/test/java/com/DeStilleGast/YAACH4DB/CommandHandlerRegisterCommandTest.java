@@ -14,7 +14,7 @@ public class CommandHandlerRegisterCommandTest {
 
     @Test
     public void registerCommand() {
-        CommandHandler ch = new CommandHandler("!", new SimpleLogger());
+        CommandManager ch = new CommandManager("!", new SimpleLogger());
 
         ch.registerCommand(new ISimpleCommand() {
             @Override
@@ -38,7 +38,7 @@ public class CommandHandlerRegisterCommandTest {
             }
 
             @Override
-            public void execute(CommandWrapper cw) {
+            public void execute(MessageReceivedEventWrapper cw) {
 
             }
         });
@@ -50,7 +50,7 @@ public class CommandHandlerRegisterCommandTest {
     }
 
     @Command(name = "Annotation", usage = "this depends on how you made your help command")
-    public void annocationTest(CommandWrapper cw){
+    public void annocationTest(MessageReceivedEventWrapper cw){
 
     }
 
