@@ -147,30 +147,42 @@ public class CommandManager extends ListenerAdapter {
     public void onMessageReceived(MessageReceivedEvent event) {
         String commandLine = event.getMessage().getContentRaw();
 
-        String command = commandLine.substring(0, commandLine.length()).split(" ")[0]; // Used command
-        final String[] args = commandLine.substring(command.length(), commandLine.length()).split(" "); // Get all the arguments
-
-        ISimpleCommand resultCommand = null;
-        for (ISimpleCommand cmd : this.commandMap) { // Search for command
-            if (cmd.command().equalsIgnoreCase(command)) { // Look in command name
-                resultCommand = cmd;
-                break;
+        if(commandLine.startsWith(prefix)) {
+            String command = commandLine.substring(prefix.length(), commandLine.length()).split(" ")[0]; //Get command
+            String[] tmpArgs = {};
+            if (commandLine.contains(" ")) {
+                tmpArgs = commandLine.substring(prefix.length() + command.length() + 1, commandLine.length()).split(" "); //get all the args
             }
 
-            // Look in the aliases
-            if (Arrays.stream(cmd.aliases()).anyMatch(alias -> alias.equalsIgnoreCase(command))) {
-                resultCommand = cmd;
-                break;
-            }
-        }
+            final String[] args = tmpArgs; //fix empty parameter
 
-        if (resultCommand != null) {
-            MessageReceivedEventWrapper cw = new MessageReceivedEventWrapper(event.getJDA(), event.getResponseNumber(), event.getMessage(), command, args);
-            resultCommand.execute(cw);
+
+            ISimpleCommand resultCommand = null;
+            for (ISimpleCommand cmd : this.commandMap) { // Search for command
+                if (cmd.command().equalsIgnoreCase(command)) { // Look in command name
+                    resultCommand = cmd;
+                    break;
+                }
+
+                // Look in the aliases
+                if (Arrays.stream(cmd.aliases()).anyMatch(alias -> alias.equalsIgnoreCase(command))) {
+                    resultCommand = cmd;
+                    break;
+                }
+            }
+
+            if (resultCommand != null) {
+                MessageReceivedEventWrapper cw = new MessageReceivedEventWrapper(event.getJDA(), event.getResponseNumber(), event.getMessage(), command, args);
+                resultCommand.execute(cw);
+            }
         }
     }
 
     public List<ISimpleCommand> getCommandList() {
         return Collections.unmodifiableList(this.commandMap);
+    }
+
+    public String getPrefix() {
+        return prefix;
     }
 }
