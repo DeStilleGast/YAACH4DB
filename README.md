@@ -45,7 +45,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.github.DeStilleGast:YAACH4DB:v1.0.1'
+    compile 'com.github.DeStilleGast:YAACH4DB:v1.0.2'
 }
 ```
 
@@ -53,4 +53,4 @@ dependencies {
 maybe later in the future I will maybe add a function to solve that
 
 Versions:
-initial commit started by: 3.5.0_336 and up, release (v1.0.1) 
+initial commit started by: 3.5.0_336 and up, release (v1.0.2) 
