@@ -2,6 +2,8 @@
 side note: it is one of my ever first releases on github :D
 so if you have some idea's tell me in the Issues and I will look at it
 
+extra side note: I'm currently doing much edits and updates
+
 ### Yet A Another Command Handler 4 Discord Bots
 So yes, I was bit bored and a friend asked me to make a custom command handler because he did not liked the other frameworks out there.
 
@@ -45,7 +47,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.github.DeStilleGast:YAACH4DB:v1.0.2'
+    compile 'com.github.DeStilleGast:YAACH4DB:v1.0.3'
 }
 ```
 
@@ -53,4 +55,4 @@ dependencies {
 maybe later in the future I will maybe add a function to solve that
 
 Versions:
-initial commit started by: 3.5.0_336 and up, release (v1.0.2) 
+initial commit started by: 3.5.0_336 and up, use release (v1.0.3) 
