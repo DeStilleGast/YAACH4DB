@@ -14,7 +14,25 @@ It is pretty simple, it can look like this:
 
 ```java
 public class Bot {
-    private CommandManager commandManager = new CommandManager();
+    private CommandManager commandManager = new CommandManager(new ICommandHandlerConfig() {
+        // Declare your prefix here
+        @Override 
+        public String prefix() {
+           return "!";
+        }
+        
+        // Declare your own logger or the implemented simple logger
+        @Override
+        public ILogger logger() {
+           return new SimpleLogger();
+        }
+        
+        // Tell here how the command manager should react if the command wasn't found
+        // if you keep this empty nothing will happen
+        @Override
+        public void onUnknownCommand(MessageReceivedEventWrapper event) {
+        }
+   });
 
     public static void main(String[] args){
         commandManager.registerCommand(this);
