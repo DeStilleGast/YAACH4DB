@@ -46,3 +46,6 @@ dependencies {
 
 # Please note, this command handler doesn't have a `Unknown command` message, you should be able to add one on your own
 maybe later in the future I will maybe add a function to solve that
+
+Versions:
+initial commit started by: 3.5.0_336 and up, release (V1) 
