@@ -50,7 +50,7 @@ public class Bot {
     
     @Command(name = "toast", usage = "this depends on how you made your help command")
     public void testToast(MessageReceivedEvent event){
-        event.getTextChannel().sendMessage(message).queue();
+        event.getTextChannel().sendMessage("I prefer the wrapper, you wont forget the queue or complete function every time").complete();
     }
 }
 ```
