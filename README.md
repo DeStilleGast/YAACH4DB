@@ -28,5 +28,17 @@ public class Bot {
 
 but you can also add command with the interface ISimpleCommand and there is everything defined for you
 
+### Oke awesome, but how can I use this
+well to make it easy, put this in your build file (gradle), it is posible that you already have some settings, just use your brain a bit and combine them :D
+```gradle
+repositories {
+    maven { url "https://jitpack.io" }
+}
+
+dependencies {
+    compile 'com.github.DeStilleGast:YAACH4DB:V1'
+}
+```
+
 # Please note, this command handler doesn't have a `Unknown command` message, you should be able to add one on your own
 maybe later in the future I will maybe add a function to solve that
