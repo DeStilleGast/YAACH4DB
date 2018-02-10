@@ -111,7 +111,7 @@ public class CommandManager extends ListenerAdapter {
 
                 commandMap.add(convertedCommand);
 
-                logger.ok(String.format("%s registed !!", cmd.name()));
+                logger.ok(String.format("%s registerd !!", cmd.name()));
             } catch (Exception ex) {
                 logger.error(String.format("Failed to register '%s', printstace:", cmd.name()));
                 ex.printStackTrace();
