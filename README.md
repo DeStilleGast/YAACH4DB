@@ -3,7 +3,7 @@ So yes, I was bit bored and a friend asked me to make a custom command handler b
 
 And here it is, simple, light weight and strict usage.
 
-###How to use this awesome command handler of yours you ask
+### How to use this awesome command handler of yours you ask
 It is pretty simple, it can look like this:
 
 ```java
@@ -28,5 +28,5 @@ public class Bot {
 
 but you can also add command with the interface ISimpleCommand and there is everything defined for you
 
-#Please note, this command handler doesn't have a `Unknown command` message, you should be able to add one on your own
+# Please note, this command handler doesn't have a `Unknown command` message, you should be able to add one on your own
 maybe later in the future I will maybe add a function to solve that
