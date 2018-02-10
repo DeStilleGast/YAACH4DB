@@ -1,3 +1,7 @@
+# NOTE: This is my first release, names from classes may change
+side note: it is one of my ever first releases on github :D
+so if you have some idea's tell me in the Issues and I will look at it
+
 ### Yet A Another Command Handler 4 Discord Bots
 So yes, I was bit bored and a friend asked me to make a custom command handler because he did not liked the other frameworks out there.
 
