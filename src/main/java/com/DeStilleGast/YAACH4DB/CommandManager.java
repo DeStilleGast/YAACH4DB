@@ -1,9 +1,9 @@
 package com.DeStilleGast.YAACH4DB;
 
+import com.DeStilleGast.YAACH4DB.Interfaces.ICommandHandlerConfig;
 import com.DeStilleGast.YAACH4DB.Interfaces.ILogger;
 import com.DeStilleGast.YAACH4DB.Internal.Command;
 import com.DeStilleGast.YAACH4DB.Internal.ISimpleCommand;
-import com.DeStilleGast.YAACH4DB.Internal.SimpleLogger;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
@@ -23,17 +23,13 @@ public class CommandManager extends ListenerAdapter {
     private final ILogger logger;
     private final String prefix;
 
-    public CommandManager(){ // Go make a simple Command Handler with '!' as prefix and basic logger
-        this("!");
-    }
+    private final ICommandHandlerConfig config;
 
-    public CommandManager(String prefix){ // Go make a Command Handler with my prefix and basic logger
-        this(prefix, new SimpleLogger());
-    }
+    public CommandManager(ICommandHandlerConfig config) { // Go make a Command Handler and use my prefix and my logger
+        this.prefix = config.prefix();
+        this.logger = config.logger();
 
-    public CommandManager(String prefix, ILogger logger) { // Go make a Command Handler and use my prefix and my logger
-        this.prefix = prefix;
-        this.logger = logger;
+        this.config = config;
     }
 
     public void registerCommand(Object object) {
@@ -117,7 +113,7 @@ public class CommandManager extends ListenerAdapter {
 
                 logger.ok(String.format("%s registed !!", cmd.name()));
             } catch (Exception ex) {
-                logger.error(String.format("Failed to register %s, printstace:", cmd.name()));
+                logger.error(String.format("Failed to register '%s', printstace:", cmd.name()));
                 ex.printStackTrace();
             }
         }
@@ -137,8 +133,8 @@ public class CommandManager extends ListenerAdapter {
         if (!(m.getReturnType() == void.class)) // You can add some other returnable types
             throw new Exception("Must have void as the return type.");
         if (m.getParameterCount() != 1) throw new Exception("Must have 1 parameter -> CommandWrapper");
-        if (!MessageReceivedEventWrapper.class.isAssignableFrom(m.getParameterTypes()[0]))
-            throw new Exception("First parameter must be a CommandWrapper or a subclass of it.");
+        if (!MessageReceivedEvent.class.isAssignableFrom(m.getParameterTypes()[0]))
+            throw new Exception("First parameter must be a MessageEventReceivedWrapper or a subclass of it.");
 
         return m;
     }
@@ -171,9 +167,11 @@ public class CommandManager extends ListenerAdapter {
                 }
             }
 
+            MessageReceivedEventWrapper cw = new MessageReceivedEventWrapper(event.getJDA(), event.getResponseNumber(), event.getMessage(), command, args);
             if (resultCommand != null) {
-                MessageReceivedEventWrapper cw = new MessageReceivedEventWrapper(event.getJDA(), event.getResponseNumber(), event.getMessage(), command, args);
                 resultCommand.execute(cw);
+            }else{
+                config.onUnknownCommand(cw);
             }
         }
     }

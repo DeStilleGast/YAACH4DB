@@ -1,8 +1,11 @@
 package com.DeStilleGast.YAACH4DB;
 
+import com.DeStilleGast.YAACH4DB.Interfaces.ICommandHandlerConfig;
+import com.DeStilleGast.YAACH4DB.Interfaces.ILogger;
 import com.DeStilleGast.YAACH4DB.Internal.Command;
 import com.DeStilleGast.YAACH4DB.Internal.ISimpleCommand;
 import com.DeStilleGast.YAACH4DB.Internal.SimpleLogger;
+import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import org.junit.Test;
 
 import static junit.framework.TestCase.assertSame;
@@ -14,7 +17,22 @@ public class CommandHandlerRegisterCommandTest {
 
     @Test
     public void registerCommand() {
-        CommandManager ch = new CommandManager("!", new SimpleLogger());
+        CommandManager ch = new CommandManager(new ICommandHandlerConfig() {
+            @Override
+            public String prefix() {
+                return "!";
+            }
+
+            @Override
+            public ILogger logger() {
+                return new SimpleLogger();
+            }
+
+            @Override
+            public void onUnknownCommand(MessageReceivedEventWrapper event) {
+
+            }
+        });
 
         ch.registerCommand(new ISimpleCommand() {
             @Override
@@ -46,11 +64,22 @@ public class CommandHandlerRegisterCommandTest {
         ch.registerCommand(this);
 
         assertSame("Command register should have 2 commands registered",
-                2, ch.getCommandList().size());
+                3, ch.getCommandList().size());
+
+        /*annocationTest1(new MessageReceivedEventWrapper(null, 0, null, "", new String[0]));
+        annocationTest1(new MessageReceivedEvent(null, 0, null));
+
+        annocationTest(new MessageReceivedEventWrapper(null, 0, null, "", new String[0]));
+        annocationTest(new MessageReceivedEvent(null, 0, null));*/
     }
 
     @Command(name = "Annotation", usage = "this depends on how you made your help command")
     public void annocationTest(MessageReceivedEventWrapper cw){
+
+    }
+
+    @Command(name = "Annotation1", usage = "this depends on how you made your help command")
+    public void annocationTest1(MessageReceivedEvent cw){
 
     }
 
