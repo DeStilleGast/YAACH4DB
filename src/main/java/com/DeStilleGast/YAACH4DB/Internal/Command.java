@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Command {
     String name();
-    String usage();
+    String usage() default "No parameters need";
 
     String[] aliases() default {};
     String description() default "No description set";
