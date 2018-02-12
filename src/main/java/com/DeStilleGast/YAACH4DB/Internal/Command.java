@@ -16,4 +16,6 @@ public @interface Command {
 
     String[] aliases() default {};
     String description() default "No description set";
+
+    String category() default "";
 }

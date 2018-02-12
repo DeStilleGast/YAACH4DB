@@ -27,11 +27,6 @@ public class CommandHandlerRegisterCommandTest {
             public ILogger logger() {
                 return new SimpleLogger();
             }
-
-            @Override
-            public void onUnknownCommand(MessageReceivedEventWrapper event) {
-
-            }
         });
 
         ch.registerCommand(new ISimpleCommand() {
@@ -53,6 +48,11 @@ public class CommandHandlerRegisterCommandTest {
             @Override
             public String usage() {
                 return "Meh";
+            }
+
+            @Override
+            public String category() {
+                return null;
             }
 
             @Override

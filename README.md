@@ -21,18 +21,15 @@ public class Bot {
            return "!";
         }
         
-        // Declare your own logger or the implemented simple logger
         @Override
         public ILogger logger() {
-           return new SimpleLogger();
-        }
-        
-        // Tell here how the command manager should react if the command wasn't found
-        // if you keep this empty nothing will happen
-        @Override
-        public void onUnknownCommand(MessageReceivedEventWrapper event) {
+            // Don't want to use a logger, use inbuilt NoLogger or make/use your own
+            return new SimpleLogger();
         }
    });
+    
+    // Note, if you only want to set the prefix because the default config is fine?
+    // use this -> 'CommandManager ch = new CommandManager(() -> "!");'
 
     public static void main(String[] args){
         commandManager.registerCommand(this);
@@ -70,7 +67,15 @@ dependencies {
 ```
 
 # Please note, this command handler doesn't have a `Unknown command` message, you should be able to add one on your own
-maybe later in the future I will maybe add a function to solve that
+~~maybe later in the future I will maybe add a function to solve that~~
+It's implemented
 
-Versions:
-initial commit started by: 3.5.0_336 and up, use release (v1.0.3) 
+# Things you currently can configure
+prefix
+logger (must be set, dont want to use a logger, use inbuilt NoLogger class)
+unknownCommandHandler
+enforce categories (default set to true, can be turned off to allow null categories)
+
+
+## Versions:
+initial commit started by: 3.5.0_336 and up, use release (v1.0.4) 

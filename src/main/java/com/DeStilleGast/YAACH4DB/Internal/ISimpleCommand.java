@@ -10,6 +10,7 @@ public interface ISimpleCommand {
     String[] aliases();
     String description();
     String usage();
+    String category();
 
     void execute(MessageReceivedEventWrapper cw);
 }

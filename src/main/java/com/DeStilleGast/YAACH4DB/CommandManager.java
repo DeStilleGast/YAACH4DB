@@ -41,8 +41,15 @@ public class CommandManager extends ListenerAdapter {
     }
 
     private void registerInterfacedCommand(ISimpleCommand simpleCommand) {
-        commandMap.add(simpleCommand);
-        logger.ok(String.format("Command '%s' was registered !", simpleCommand.command()));
+        try {
+            checkIfValid(simpleCommand.command(), simpleCommand.aliases(), simpleCommand.category());
+
+            commandMap.add(simpleCommand);
+            logger.ok(String.format("Command '%s' was registered !", simpleCommand.command()));
+        }catch (Exception ex){
+            logger.error(String.format("Failed to register '%s', StackTrace:", simpleCommand.command()));
+            ex.printStackTrace();
+        }
     }
 
     private void registerObjectCommands(Object object) {
@@ -55,19 +62,7 @@ public class CommandManager extends ListenerAdapter {
 
             try {
                 Method commandMethod = checkCommand(method);
-
-                if (cmd.name().contains(" ") || Arrays.stream(cmd.aliases()).anyMatch(alias -> alias.contains(" "))) {
-                    throw new Exception("Command or alias contains a space, this will result in a unusable command !! -> " + cmd.name());
-                }
-
-                boolean alreadyExists = commandMap.stream().anyMatch(module -> module.command().equalsIgnoreCase(cmd.name()));
-                if (alreadyExists)
-                    throw new Exception("There already exists a command named as " + cmd.name());
-
-                alreadyExists = commandMap.stream().anyMatch(module -> Arrays.stream(module.aliases()).anyMatch(alias -> alias.equals(cmd.name())));
-                if (alreadyExists)
-                    throw new Exception("There already exists a alias command named as " + cmd.name());
-
+                checkIfValid(cmd.name(), cmd.aliases(), cmd.category());
 
                 ISimpleCommand convertedCommand = new ISimpleCommand() {
                     @Override
@@ -86,6 +81,11 @@ public class CommandManager extends ListenerAdapter {
                     }
 
                     @Override
+                    public String category() {
+                        return cmd.category();
+                    }
+
+                    @Override
                     public void execute(MessageReceivedEventWrapper cw) {
                         try {
                             method.invoke(object, cw);
@@ -97,7 +97,7 @@ public class CommandManager extends ListenerAdapter {
 
                             e.printStackTrace();
                         } catch (Exception e) {
-                            logger.error("Command handler or command (" + cmd.name() + ") has crashed, stacktrace:");
+                            logger.error("Command handler or command (" + cmd.name() + ") has crashed, StackTrace:");
                             e.printStackTrace();
                         }
                     }
@@ -113,7 +113,7 @@ public class CommandManager extends ListenerAdapter {
 
                 logger.ok(String.format("%s registerd !!", cmd.name()));
             } catch (Exception ex) {
-                logger.error(String.format("Failed to register '%s', printstace:", cmd.name()));
+                logger.error(String.format("Failed to register '%s', StackTrace:", cmd.name()));
                 ex.printStackTrace();
             }
         }
@@ -137,6 +137,23 @@ public class CommandManager extends ListenerAdapter {
             throw new Exception("First parameter must be a MessageEventReceivedWrapper or a subclass of it.");
 
         return m;
+    }
+
+    private void checkIfValid(String name, String[] alias, String category) throws Exception {
+        if (name.contains(" ") || Arrays.stream(alias).anyMatch(a -> a.contains(" "))) {
+            throw new Exception(String.format("Command or alias contains a space, this will result in a unusable command !! -> %s", name));
+        }
+
+        boolean alreadyExists = commandMap.stream().anyMatch(module -> module.command().equalsIgnoreCase(name));
+        if (alreadyExists)
+            throw new Exception(String.format("There already exists a command named as %s", name));
+
+        alreadyExists = commandMap.stream().anyMatch(module -> Arrays.stream(module.aliases()).anyMatch(a -> alias.equals(name)));
+        if (alreadyExists)
+            throw new Exception(String.format("There already exists a alias command named as %s", name));
+
+        if(config.forceCategories() && category.equals(""))
+            throw new Exception(String.format("%s has a unset or empty category !", name));
     }
 
     @Override
