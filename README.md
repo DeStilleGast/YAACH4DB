@@ -62,7 +62,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.github.DeStilleGast:YAACH4DB:v1.0.3'
+    compile 'com.github.DeStilleGast:YAACH4DB:v1.0.4'
 }
 ```
 

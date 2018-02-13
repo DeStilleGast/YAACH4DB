@@ -19,4 +19,7 @@ public interface ICommandWrapper {
 
     //Try to get argument, otherwise
     String getArgumentOr(int index, String other);
+
+    //Get al the other argument and make a string of it
+    String getAllAfter(int index);
 }

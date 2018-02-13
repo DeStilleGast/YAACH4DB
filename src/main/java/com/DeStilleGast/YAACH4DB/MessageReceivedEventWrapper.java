@@ -7,6 +7,9 @@ import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by DeStilleGast on 17-1-2018.
  */
@@ -53,4 +56,13 @@ public class MessageReceivedEventWrapper extends MessageReceivedEvent implements
         return other;
     }
 
+    @Override
+    public String getAllAfter(int index) {
+        List<String> foundArgs = new ArrayList<>();
+        for(int i = index; i < args.length; i++){
+                foundArgs.add(args[i]);
+        }
+
+        return String.join(" ", foundArgs);
+    }
 }
