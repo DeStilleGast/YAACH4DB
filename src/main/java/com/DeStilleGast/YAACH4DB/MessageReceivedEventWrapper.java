@@ -56,10 +56,25 @@ public class MessageReceivedEventWrapper extends MessageReceivedEvent implements
         return other;
     }
 
+    /**
+     * if the startIndex is 0 then this command will return something like this:
+     * [you] !getArgs HelloWorld this is a test
+     * [bot] HelloWorld this is a test
+     *
+     * if it is set to 2, it will get something like this:
+     * [you] !getArgs HelloWorld this is a test
+     * [bot] this is a test
+     *
+     * note: this summary is a explaining, this is not a real command, well you can make one, but would be useless, except for a say or repeat command
+     *
+     * @param startIndex index number from the arguments where it should start
+     * @return all the arguments after and including the startindex
+     */
+
     @Override
-    public String getAllAfter(int index) {
+    public String getAllAfterAt(int startIndex) {
         List<String> foundArgs = new ArrayList<>();
-        for(int i = (index-1); i < args.length; i++){
+        for(int i = startIndex; i < args.length; i++){
                 foundArgs.add(args[i]);
         }
 
