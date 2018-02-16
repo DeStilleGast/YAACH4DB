@@ -59,7 +59,7 @@ public class MessageReceivedEventWrapper extends MessageReceivedEvent implements
     @Override
     public String getAllAfter(int index) {
         List<String> foundArgs = new ArrayList<>();
-        for(int i = index; i < args.length; i++){
+        for(int i = (index-1); i < args.length; i++){
                 foundArgs.add(args[i]);
         }
 
