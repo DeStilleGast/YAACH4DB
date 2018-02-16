@@ -80,4 +80,4 @@ enforce categories (default set to true, can be turned off to allow null categor
 A way to make your owner wrappers so you can add your own methodes
 
 ## Versions:
-initial commit started by: 3.5.0_336 and up, use release (v1.0.4) 
+initial commit started by: 3.5.0_336 and up, use release (v1.0.7)
